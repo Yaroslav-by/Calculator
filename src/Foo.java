@@ -1,5 +1,4 @@
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.Scanner;
 
 class Foo {
@@ -9,6 +8,7 @@ class Foo {
 		try {
 			
 			File file = new File("input.txt");
+			FileWriter writer = new FileWriter(file, true);
 			Scanner sc = new Scanner(file);
 			
 			while (sc.hasNextLine()) {
@@ -43,19 +43,23 @@ class Foo {
 					throw new OperationException();
 				}
 				
-			switch (operation) {
-				case '+': System.out.println(first + second); 
-			break;
-				case '-': System.out.println(first - second); 
-			break;
-				case '*': System.out.println(first * second); 
-			break;
-				case '/': System.out.println((double) first / second); 
-			break;
-			}
+				double result = 0;
+				switch (operation) {
+					case '+': result = first + second; 
+				break;
+					case '-': result = first - second; 
+				break;
+					case '*': result = first * second; 
+				break;
+					case '/': result = first / second; 
+				break;
+				}
 				
+				String temp = " = " + Double.toString(result) + ";";
+				writer.write(temp);
 			}
 			sc.close();
+			writer.close();
 		} catch(NumberFormatException e) {
 			System.out.println("Error! Not number");
 		} catch (OperationException e) {
@@ -64,7 +68,9 @@ class Foo {
 			System.out.println("Error! Division by zero");
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found!");
-		}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} 
     }
     
 }
