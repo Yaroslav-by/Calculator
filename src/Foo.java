@@ -5,12 +5,10 @@ class Foo {
 
 	public static void main(String[] args) {
     	
-		try {
-			
-			File file = new File("input.txt");
-			FileWriter writer = new FileWriter(file, true);
-			Scanner sc = new Scanner(file);
-			
+		File file = new File("input.txt");
+		try (FileWriter writer = new FileWriter("output.txt", false);
+			 Scanner sc = new Scanner(file);)
+		{
 			while (sc.hasNextLine()) {
 				String line = sc.nextLine();
 				String[] a = line.split(" ");
@@ -55,11 +53,9 @@ class Foo {
 				break;
 				}
 				
-				String temp = " = " + Double.toString(result) + ";";
-				writer.write(temp);
+				String temp = line + " = " + Double.toString(result) + ";";
+				writer.write(temp + "\n");
 			}
-			sc.close();
-			writer.close();
 		} catch(NumberFormatException e) {
 			System.out.println("Error! Not number");
 		} catch (OperationException e) {
