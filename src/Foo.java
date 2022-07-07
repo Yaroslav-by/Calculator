@@ -15,19 +15,14 @@ class Foo {
 				
 				double first;
 				double second;
-				
-				if (a[0].contains(".")) {
+				try {
 					first = Double.parseDouble(a[0]);
-				} else {
-					first = Integer.parseInt(a[0]);
+					second = Double.parseDouble(a[2]);
+				} catch (Exception e) {
+					writer.write(line + " = Error! Not number;\n");
+					continue;
 				}
 				
-				if (a[2].contains(".")) {
-					second = Double.parseDouble(a[2]);
-				} else {
-					second = Integer.parseInt(a[2]);
-				}
-
 				char operation;
 				
 				if (a[1].length() > 1) {
@@ -56,8 +51,6 @@ class Foo {
 				String temp = line + " = " + Double.toString(result) + ";";
 				writer.write(temp + "\n");
 			}
-		} catch(NumberFormatException e) {
-			System.out.println("Error! Not number");
 		} catch (OperationException e) {
 			System.out.println("Operation Error!");
 		} catch (ArithmeticException e) {
