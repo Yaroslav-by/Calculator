@@ -1,5 +1,8 @@
-dad / 5 = Error! Not number;
-65 * 3 = 195.0;
- = Error! Not number;
-55 / 3 = 18.333333333333332;
-ыв = Error! Not number;
+jnssvjiwhnui = Error! Not number;
+55 - 99 = -44.0;
+56 d mdk d d = Error! Not number;
+88 * 5 = 440.0;
+44 / 0 = Error! Division by zero
+45 - 0 = 45.0;
+1200000000000000000000000000000000000 - 5 = 1.2E36;
+1000000 + 1000000 = 2000000.0;

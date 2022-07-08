@@ -11,6 +11,9 @@ class Foo {
 		{
 			while (sc.hasNextLine()) {
 				String line = sc.nextLine();
+				if (line.equals("")) {
+					continue;
+				}
 				String[] a = line.split(" ");
 				
 				double first;
@@ -26,14 +29,17 @@ class Foo {
 				char operation;
 				
 				if (a[1].length() > 1) {
-					throw new OperationException();
+					writer.write(line + " = Operation Error!\n");
+					continue;
 				} else if (a[1].equals("+") || a[1].equals("-") || a[1].equals("*") || a[1].equals("/")) {
 					operation = a[1].charAt(0);
 					if (operation == '/' && second == 0) {
-						throw new ArithmeticException();
+						writer.write(line + " = Error! Division by zero\n");
+						continue;
 					}
 				} else {
-					throw new OperationException();
+					writer.write(line + " = Operation Error!\n");
+					continue;
 				}
 				
 				double result = 0;
@@ -51,10 +57,6 @@ class Foo {
 				String temp = line + " = " + Double.toString(result) + ";";
 				writer.write(temp + "\n");
 			}
-		} catch (OperationException e) {
-			System.out.println("Operation Error!");
-		} catch (ArithmeticException e) {
-			System.out.println("Error! Division by zero");
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found!");
 		} catch (IOException e) {
@@ -63,11 +65,4 @@ class Foo {
     }
     
 }
-
-class OperationException extends Exception {
-	
-}
-
-
-
 
