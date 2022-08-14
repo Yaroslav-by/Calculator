@@ -12,11 +12,15 @@ import javax.swing.border.LineBorder;
 public class MyFrame extends JFrame {
 
 	private JTextField text;
+	
 	private double firstDigit;
 	private double secondDigit;
+	private double answer;
 	private String operation;
+	
 	private boolean isFirstDigitReady = false;
 	private boolean isClear = false;
+	private boolean isAnswerReady = false;
 	
 	public MyFrame() {
 		
@@ -78,36 +82,13 @@ public class MyFrame extends JFrame {
 		setSettings(bCancel);
 		bCancel.addActionListener((e) -> {
 			
-			text.setText("");
-			firstDigit = 0;
-			secondDigit = 0;
-			operation = null;
-			isFirstDigitReady = false;
-			isClear = false;
+			cancel();
 			
 		});
 		
 		JButton b0 = new JButton("0");
-		setSettings(b0);
-		b0.addActionListener((e) -> {
-			
-			if (!isFirstDigitReady && !text.getText().equals("")) {
-				text.setText(text.getText() + b0.getText());
-			} else {
-				if (!isClear) {
-					text.setText(b0.getText());
-					isClear = true;
-				} else {
-					text.setText(text.getText() + b0.getText());
-				}
-			}
-			
-//			if (!text.getText().equals("")) {
-//				text.setText(text.getText() + b0.getText());
-//			}
-			
-		});
-		
+		setSettings(b0, true);
+
 		JButton bEqual = new JButton("=");
 		setSettings(bEqual);
 		bEqual.addActionListener((e) -> {
@@ -116,27 +97,28 @@ public class MyFrame extends JFrame {
 			try {				
 				switch (operation) {
 					case("+"):
-						firstDigit = firstDigit + secondDigit;
-						text.setText(Double.toString(firstDigit));
-						isClear = false;
+						answer = firstDigit + secondDigit;
+						isAnswerReady = true;
+						text.setText(Double.toString(answer));
 						break;
 					case("-"):
-						firstDigit = firstDigit - secondDigit;
-						text.setText(Double.toString(firstDigit));
-						isClear = false;
+						answer = firstDigit - secondDigit;
+						isAnswerReady = true;
+						text.setText(Double.toString(answer));
 						break;
 					case("*"):
-						firstDigit = firstDigit * secondDigit;
-						text.setText(Double.toString(firstDigit));
-						isClear = false;
+						answer = firstDigit * secondDigit;
+						isAnswerReady = true;
+						text.setText(Double.toString(answer));
 						break;
 					case("/"):
 						if (secondDigit == 0) {
+							isAnswerReady = true;
 							throw new ArithmeticException();
 						} else {
-							firstDigit = firstDigit / secondDigit;
-							text.setText(Double.toString(firstDigit));
-							isClear = false;
+							answer = firstDigit / secondDigit;
+							isAnswerReady = true;
+							text.setText(Double.toString(answer));
 							break;
 						}
 				}	
@@ -192,6 +174,9 @@ public class MyFrame extends JFrame {
 				
 				if (!isFirstDigitReady) {
 					text.setText(text.getText() + b.getText());
+				} else if (isAnswerReady) {
+					cancel();
+					text.setText(b.getText());
 				} else {
 					if (!isClear) {
 						text.setText(b.getText());
@@ -206,7 +191,12 @@ public class MyFrame extends JFrame {
 		} else {	   //By clicking on a symbol
 			b.addActionListener((e) -> {
 					
-				if (!isClear) {
+				if (isClear && isAnswerReady) {
+					firstDigit = Double.parseDouble(text.getText());
+					operation = b.getText();
+					isAnswerReady = false;
+					isClear = false;
+				} if (!isClear) {
 					firstDigit = Double.parseDouble(text.getText());
 					operation = b.getText();
 					isFirstDigitReady = true;
@@ -215,5 +205,16 @@ public class MyFrame extends JFrame {
 			});
 		}
 		
+	}
+	
+	private void cancel() {
+		text.setText("");
+		firstDigit = 0;
+		secondDigit = 0;
+		answer = 0;
+		operation = null;
+		isFirstDigitReady = false;
+		isClear = false;
+		isAnswerReady = false;
 	}
 }
